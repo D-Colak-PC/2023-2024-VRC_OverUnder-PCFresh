@@ -1,11 +1,11 @@
 # 2023-2024-VRC_OverUnder-PCFresh
-**The definitive Repository for the 2023-2024 VRC Over Under for the Pine Crest Upper School Freshman Robotics Team (#lolol)**
+**The definitive Repository for the 2023-2024 VRC Over Under for the Pine Crest Upper School Freshman Robotics Team (#lolol)**<br>
 There are 2(+?) teams for the Pine Crest VEX VRC Robotics competition. This is the Freshman Team for the 2023-2024 Season. The Code here will contain, but is not limited to, all driving and autonomous code.
 
 ## Set Up
 
 ### Installation
-**All instructions must be followed IN ORDER, as each depends on the last**
+**All instructions must be followed IN ORDER, as each depends on the last**<br>
 First, follow these instructions to download PROS (and VS Code, if necessary): [https://pros.cs.purdue.edu/v5/getting-started/](https://pros.cs.purdue.edu/v5/getting-started/)
 
 Then, install the specific library we are using: [https://okapilib.github.io/OkapiLib/md_docs_tutorials_walkthrough_gettingStarted.html](https://okapilib.github.io/OkapiLib/md_docs_tutorials_walkthrough_gettingStarted.html)
