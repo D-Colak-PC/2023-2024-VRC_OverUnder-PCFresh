@@ -1,5 +1,60 @@
 #include "main.h"
 
+const int INTAKE_PORT = 2;
+const int RIGHT_CATAPULT_PORT = 16;
+const int LEFT_CATAPULT_PORT = 13;
+const int FRONT_RIGHT_DRIVE_PORT = 19;
+const int FRONT_LEFT_DRIVE_PORT = 20;
+const int BACK_RIGHT_DRIVE_PORT = 17;
+const int BACK_LEFT_DRIVE_PORT = 18;
+const char BACK_BUMPER_PORT = 'h';
+
+const int CONTROLLER_UPDATE_FPS = 10; // ms between controller updates
+
+const std::string DRIVE_TYPE = "arcade"; // "arcade" or "tank"
+/**
+ * Motor Groups:
+ * ------------------
+ * 13 (reversed) + 16 = Catapult
+ * 17 (normal) + 19 (normal) = Right Drive
+ * 18 (reversed) + 20 (reversed) = Left Drive
+ * 
+ * Motor Ports
+ * -------------------------------------------------
+ * 1   |
+ * 2   | Intake Motor (R1 to start, R2 to stop)
+ * 3   | 
+ * 4   |
+ * 5   | 
+ * 6   |
+ * 7   |
+ * 8   |
+ * 9   |
+ * 10  |
+ * 11  |
+ * 12  | Internal Gyroscope
+ * 13  | Left Catapult Motor (21432AG, reversed)
+ * 14  | 
+ * 15  |
+ * 16  | Right Catapult Motor (21134AG, normal)
+ * 17  | Back Right Drive Motor (normal)
+ * 18  | Back Left Drive Motor (reversed)
+ * 19  | Front Right Drive Motor (normal)
+ * 20  | Front Left Drive Motor (reversed)
+ * 21  | Radio
+ * 
+ * 
+ * Sensor Ports
+ * ---------------------------------------------------
+ * A   |
+ * B   |
+ * C   |
+ * D   |
+ * E   |
+ * F   |
+ * G   |
+ * H   | Back Bumper
+*/
 /**
  * A callback function for LLEMU's center button.
  *
@@ -74,20 +129,32 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::MotorGroup left_mg({1,-2,3}); // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-	pros::MotorGroup right_mg({-4,5,-6}); // Creates a motor group with forwards port 4 and reversed ports 4 & 6
+	pros::Controller master(pros::E_CONTROLLER_MASTER); // Creates controller object for master controller	
+
+	pros::MotorGroup left_mg({-BACK_LEFT_DRIVE_PORT, -FRONT_LEFT_DRIVE_PORT}); // Creates left drive motor group with reversed ports 18 & 20
+	pros::MotorGroup right_mg({BACK_RIGHT_DRIVE_PORT, FRONT_RIGHT_DRIVE_PORT}); // Creates right drive motor group with normal ports 17 & 19
+	pros::MotorGroup catapult_mg({-LEFT_CATAPULT_PORT, RIGHT_CATAPULT_PORT}); // Creates catapult motor group with reversed port 13 & normal port 16
+	pros::adi::DigitalIn back_bumper(BACK_BUMPER_PORT); // Creates back bumper sensor object
+
+
 
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0); // Prints status of the emulated screen LCDs
 						 
-		// Arcade control scheme
-		int dir = master.get_analog(ANALOG_LEFT_Y); // Gets amount forward/backward from left joystick
-		int turn = master.get_analog(ANALOG_RIGHT_X); // Gets the turn left/right from right joystick
-		left_mg = dir - turn; // Sets left motor voltage
-		right_mg = dir + turn; // Sets right motor voltage
-		pros::delay(20); // Run for 20 ms then update
+		if (DRIVE_TYPE.compare("arcade") == 0) {
+			// Arcade control scheme
+			int dir = master.get_analog(ANALOG_LEFT_Y); // Gets amount forward/backward from left joystick
+			int turn = master.get_analog(ANALOG_RIGHT_X); // Gets the turn left/right from right joystick
+			left_mg = dir - turn; // Sets left motor voltage
+			right_mg = dir + turn; // Sets right motor voltage
+			pros::delay(CONTROLLER_UPDATE_FPS); // Run for set ms then update
+		} else {
+			// Tank control scheme
+			left_mg = master.get_analog(ANALOG_LEFT_Y); // Sets left motor voltage
+			right_mg = master.get_analog(ANALOG_RIGHT_Y); // Sets right motor voltage
+			pros::delay(CONTROLLER_UPDATE_FPS); // Run for set ms then update
+		}
 	}
 }
