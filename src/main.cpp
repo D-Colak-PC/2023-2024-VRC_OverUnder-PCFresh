@@ -11,7 +11,7 @@ const char BACK_BUMPER_PORT = 'h';
 
 const int CONTROLLER_UPDATE_FPS = 10; // ms between controller updates
 
-const std::string DRIVE_TYPE = "arcade"; // "arcade" or "tank"
+const std::string DRIVE_TYPE = "tank"; // "arcade" or "tank"
 
 
 pros::MotorGroup left_mg({-BACK_LEFT_DRIVE_PORT, -FRONT_LEFT_DRIVE_PORT}); // Creates left drive motor group with reversed ports 18 & 20
@@ -121,12 +121,6 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	for (int i = 0; i < 10; i++) {
-		left_mg.move_velocity(100);
-		right_mg.move_velocity(100);
-		pros::delay(10);
-	}
-	
 }
 
 /**
@@ -144,9 +138,6 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER); // Creates controller object for master controller	
-
-	
-
 
 
 	while (true) {
