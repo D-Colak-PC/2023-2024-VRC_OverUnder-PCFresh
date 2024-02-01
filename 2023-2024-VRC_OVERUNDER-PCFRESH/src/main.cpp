@@ -5,11 +5,7 @@ const int CONTROLLER_UPDATE_FPS = 10; // ms between controller updates
 const std::string DRIVE_TYPE = "tank"; // "arcade" or "tank"
 
 
-pros::MotorGroup left_mg({-BACK_LEFT_DRIVE_PORT, -FRONT_LEFT_DRIVE_PORT}); // Creates left drive motor group with reversed ports 18 & 20
-pros::MotorGroup right_mg({BACK_RIGHT_DRIVE_PORT, FRONT_RIGHT_DRIVE_PORT}); // Creates right drive motor group with normal ports 17 & 19
-pros::MotorGroup catapult_mg({-LEFT_CATAPULT_PORT, RIGHT_CATAPULT_PORT}); // Creates catapult motor group with reversed port 13 & normal port 16
-pros::adi::DigitalIn back_bumper(BACK_BUMPER_PORT); // Creates back bumper sensor object
-pros::Motor intake(INTAKE_PORT); // Creates intake motor object
+
 
 
 /**
