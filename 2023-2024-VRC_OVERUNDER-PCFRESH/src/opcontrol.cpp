@@ -1,5 +1,5 @@
 #include "main.h"
-#include "motors.h"
+#include "globals.h"
 #include <math.h>
 
 const int CONTROLLER_UPDATE_FPS = 10; // ms between controller updates

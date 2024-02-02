@@ -7,7 +7,7 @@
 
 /** @mainpage OkapiLib Index Page
  *
- * @section intro_sec Introduction.
+ * @section intro_sec Introduction
  *
  * **OkapiLib** is a PROS library for programming VEX V5 robots. This library is intended to raise
  * the floor for teams with all levels of experience. New teams should have an easier time getting

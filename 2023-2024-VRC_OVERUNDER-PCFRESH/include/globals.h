@@ -1,5 +1,6 @@
 #include "main.h"
 #include "okapi/api.hpp"
+#include "lemlib/api.hpp"
 
 #pragma
 
@@ -65,6 +66,10 @@ const int INTAKE_PORT = 2;
 const char BACK_BUMPER_PORT = 'h';
 
 // motor declerations
+extern pros::Motor back_left_drive;
+extern pros::Motor back_right_drive;
+extern pros::Motor front_left_drive;
+extern pros::Motor front_right_drive;
 extern pros::MotorGroup left_mg;
 extern pros::MotorGroup right_mg;
 extern pros::MotorGroup catapult_mg;
@@ -80,8 +85,14 @@ extern pros::Controller controller;
 extern okapi::ChassisControllerPID chassis;
 extern okapi::ADIGyro gyro;
 
+const int WHEEL_DIAMETER = 4;
+const double TRACK_WIDTH = 11.5;
+const int WHEEL_RPM = 200;
 
-
+// LemLib functions
+extern lemlib::Drivetrain_t drivetrain;
+extern lemlib::ChassisController_t lateralController;
+extern lemlib::ChassisController_t angularController;
 /**
  * This file contains the motor definitions for the robot.
  * 
