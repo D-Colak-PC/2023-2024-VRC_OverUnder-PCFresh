@@ -71,14 +71,10 @@ extern pros::MotorGroup catapult_mg;
 extern pros::Motor intake;
 
 // sensor declerations
-extern pros::adi::DigitalIn back_bump_sensor;
+extern pros::ADIDigitalIn back_bump_sensor;
 
 // controller declerations
 extern pros::Controller controller;
-extern pros::adi::DigitalIn BR_bumper;
-extern pros::adi::DigitalIn TR_bumper;
-extern pros::adi::DigitalIn BL_bumper;
-extern pros::adi::DigitalIn TL_bumper;
 
 // other declerations
 extern okapi::ChassisControllerPID chassis;
