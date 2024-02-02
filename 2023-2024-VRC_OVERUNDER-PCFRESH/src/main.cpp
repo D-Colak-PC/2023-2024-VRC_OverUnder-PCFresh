@@ -1,13 +1,5 @@
 #include "main.h"
 
-const int CONTROLLER_UPDATE_FPS = 10; // ms between controller updates
-
-const std::string DRIVE_TYPE = "tank"; // "arcade" or "tank"
-
-
-
-
-
 /**
  * A callback function for LLEMU's center button.
  *
@@ -66,10 +58,7 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {
-	left_mg.move_velocity(200);
-	right_mg.move_velocity(200);
-}
+void autonomous() {}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -85,56 +74,20 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	bool shooting = false; // Whether the robot is shooting
-	pros::Controller master(pros::E_CONTROLLER_MASTER); // Creates controller object for master controller	
-
+	pros::Controller master(pros::E_CONTROLLER_MASTER);
+	pros::Motor left_mtr(1);
+	pros::Motor right_mtr(2);
 
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0); // Prints status of the emulated screen LCDs
-						 
-		if (DRIVE_TYPE.compare("arcade") == 0) {
-			// Arcade control scheme
-			int dir = master.get_analog(ANALOG_LEFT_Y); // Gets amount forward/backward from left joystick
-			int turn = master.get_analog(ANALOG_RIGHT_X); // Gets the turn left/right from right joystick
-			left_mg = dir - turn; // Sets left motor voltage
-			right_mg = dir + turn; // Sets right motor voltage
-		} else {
-			// Tank control scheme
-			left_mg = master.get_analog(ANALOG_LEFT_Y); // Sets left motor voltage
-			right_mg = master.get_analog(ANALOG_RIGHT_Y); // Sets right motor voltage
-		}
+		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);
+		int left = master.get_analog(ANALOG_LEFT_Y);
+		int right = master.get_analog(ANALOG_RIGHT_Y);
 
-		/**
-		 * @brief intake
-		 * 
-		 * If "A" is pressed, start intake
-		 */
-		if (master.get_digital(DIGITAL_A)) { // If "A" is pressed
-			intake.move_velocity(200); // Start intake
-		} else {
-			intake.move_velocity(0); // Stop intake
-		}
+		left_mtr = left;
+		right_mtr = right;
 
-		/**
-		 * @brief Toggle shooting
-		 * 
-		 * if R1 is pressed, start shooting UNTIL R2 is pressed
-		 */
-		if (master.get_digital(DIGITAL_R1)) { // If R1 is pressed
-			shooting = true; // Set shooting to true
-		}
-		if (master.get_digital(DIGITAL_R2)) { // If R2 is pressed
-			shooting = false; // Set shooting to false
-		}
-
-		if (shooting) { // If shooting
-			catapult_mg.move_velocity(200); // Start catapult
-		} else {
-			catapult_mg.move_velocity(0); // Stop catapult
-		}
-
-		pros::delay(CONTROLLER_UPDATE_FPS); // Run for set ms then update
+		pros::delay(20);
 	}
 }
