@@ -1,6 +1,15 @@
 #include "main.h"
 #include "globals.h"
+#include "functions.hpp"
 
+/*
+██████╗  ██████╗  ██╗██╗  ██╗██╗  ██╗██████╗ 
+╚════██╗██╔═████╗███║██║  ██║██║  ██║██╔══██╗
+ █████╔╝██║██╔██║╚██║███████║███████║██████╔╝
+██╔═══╝ ████╔╝██║ ██║╚════██║╚════██║██╔══██╗
+███████╗╚██████╔╝ ██║     ██║     ██║██████╔╝
+╚══════╝ ╚═════╝  ╚═╝     ╚═╝     ╚═╝╚═════╝ 
+*/
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -9,11 +18,13 @@
  * to keep execution time for this mode under a few seconds.
  */
 
+
 void initialize() {
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
+	// chassis.calibrate();
+	// lemlib::Pose pose = chassis.getPose();
 
-	// pros::lcd::register_btn1_cb(on_center_button);
+	pros::lcd::set_text(1, "Hello PROS User!");
 }
 
 /**
@@ -34,5 +45,21 @@ void disabled() {
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() {}
+void competition_initialize() {
+	pros::lcd::clear();
+	pros::lcd::set_text(1, "Competition Initialize");
+
+	// motor inits, etc.
+	catapult_mg.brake();
+	catapult_mg.tare_position(); // set to 0
+
+	left_mg.brake();
+	right_mg.brake();
+	// left_mg.tare_position_all();
+	// right_mg.tare_position_all();
+
+	pros::delay(30);
+
+	// autonSelector();
+}
 

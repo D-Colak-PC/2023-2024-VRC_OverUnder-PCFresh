@@ -2,14 +2,18 @@
 #include "globals.h"
 #include <math.h>
 
+/*
+██████╗  ██████╗  ██╗██╗  ██╗██╗  ██╗██████╗ 
+╚════██╗██╔═████╗███║██║  ██║██║  ██║██╔══██╗
+ █████╔╝██║██╔██║╚██║███████║███████║██████╔╝
+██╔═══╝ ████╔╝██║ ██║╚════██║╚════██║██╔══██╗
+███████╗╚██████╔╝ ██║     ██║     ██║██████╔╝
+╚══════╝ ╚═════╝  ╚═╝     ╚═╝     ╚═╝╚═════╝ 
+*/
+
 const int CONTROLLER_UPDATE_FPS = 10; // ms between controller updates
 
 const std::string DRIVE_TYPE = "tank"; // "arcade" or "tank"
-
-
-
-
-
 /**
  * A callback function for LLEMU's center button.
  *
@@ -27,10 +31,8 @@ void on_center_button() {
 }
 
 
-
 void opcontrol() {
 	bool shooting = false; // Whether the robot is shooting
-	pros::Controller master(pros::E_CONTROLLER_MASTER); // Creates controller object for master controller	
 
 
 	while (true) {
@@ -40,22 +42,24 @@ void opcontrol() {
 						 
 		if (DRIVE_TYPE.compare("arcade") == 0) {
 			// Arcade control scheme
-			int dir = master.get_analog(ANALOG_LEFT_Y); // Gets amount forward/backward from left joystick
-			int turn = master.get_analog(ANALOG_RIGHT_X); // Gets the turn left/right from right joystick
+			int dir = controller.get_analog(ANALOG_LEFT_Y); // Gets amount forward/backward from left joystick
+			int turn = controller.get_analog(ANALOG_RIGHT_X); // Gets the turn left/right from right joystick
 			left_mg = dir - turn; // Sets left motor voltage
 			right_mg = dir + turn; // Sets right motor voltage
 		} else {
 			// Tank control scheme
-			left_mg = master.get_analog(ANALOG_LEFT_Y); // Sets left motor voltage
-			right_mg = master.get_analog(ANALOG_RIGHT_Y); // Sets right motor voltage
+			left_mg = controller.get_analog(ANALOG_LEFT_Y); // Sets left motor voltage
+			right_mg = controller.get_analog(ANALOG_RIGHT_Y); // Sets right motor voltage
 		}
 
 		/**
 		 * @brief intake
 		 * If "A" is pressed, start intake
 		 */
-		if (master.get_digital(DIGITAL_L1)) { // If "A" is pressed
-			intake.move_velocity(75); // Start intake
+		if (controller.get_digital(DIGITAL_L1)) { // If "A" is pressed
+			intake.move_velocity(750); // Start intake
+		} else if (controller.get_digital(DIGITAL_L2)) {
+			intake.move_velocity(-750); // Start intake
 		} else {
 			intake.brake(); // Stop intake
 		}
@@ -65,10 +69,10 @@ void opcontrol() {
 		 * 
 		 * if R1 is pressed, start shooting UNTIL R2 is pressed
 		 */
-		if (master.get_digital(DIGITAL_R1)) { // If R1 is pressed
+		if (controller.get_digital(DIGITAL_R1)) { // If R1 is pressed
 			shooting = true; // Set shooting to true
 		}
-		if (master.get_digital(DIGITAL_R2)) { // If R2 is pressed
+		if (controller.get_digital(DIGITAL_R2)) { // If R2 is pressed
 			shooting = false; // Set shooting to fals
 		}
 

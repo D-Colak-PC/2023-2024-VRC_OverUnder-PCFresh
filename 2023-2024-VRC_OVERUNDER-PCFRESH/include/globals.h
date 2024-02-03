@@ -1,8 +1,18 @@
 #include "main.h"
 #include "okapi/api.hpp"
 #include "lemlib/api.hpp"
+#include "functions.hpp"
 
 #pragma
+
+/*
+██████╗  ██████╗  ██╗██╗  ██╗██╗  ██╗██████╗ 
+╚════██╗██╔═████╗███║██║  ██║██║  ██║██╔══██╗
+ █████╔╝██║██╔██║╚██║███████║███████║██████╔╝
+██╔═══╝ ████╔╝██║ ██║╚════██║╚════██║██╔══██╗
+███████╗╚██████╔╝ ██║     ██║     ██║██████╔╝
+╚══════╝ ╚═════╝  ╚═╝     ╚═╝     ╚═╝╚═════╝ 
+*/
 
 /**
  * Motor Groups:
@@ -14,7 +24,7 @@
  * Motor Ports
  * -------------------------------------------------
  * 1   |
- * 2   | Intake Motor (R1 to start, R2 to stop)
+ * 2   | Intake Motor (R1 to start, R2 to stop) [blue]
  * 3   | 
  * 4   |
  * 5   | 
@@ -25,14 +35,14 @@
  * 10  |
  * 11  |
  * 12  | Internal Gyroscope
- * 13  | Left Catapult Motor (21432AG, reversed)
+ * 13  | Left Catapult Motor (21432AG, reversed) [green]
  * 14  | 
  * 15  |
- * 16  | Right Catapult Motor (21134AG, normal)
- * 17  | Back Right Drive Motor (normal)
- * 18  | Back Left Drive Motor (reversed)
- * 19  | Front Right Drive Motor (normal)
- * 20  | Front Left Drive Motor (reversed)
+ * 16  | Right Catapult Motor (21134AG, normal) [green]
+ * 17  | Back Right Drive Motor (normal) [green]
+ * 18  | Back Left Drive Motor (reversed) [green]
+ * 19  | Front Right Drive Motor (normal) [green]
+ * 20  | Front Left Drive Motor (reversed) [green]
  * 21  | Radio
  * 
  * 
@@ -82,17 +92,20 @@ extern pros::ADIDigitalIn back_bump_sensor;
 extern pros::Controller controller;
 
 // other declerations
-extern okapi::ChassisControllerPID chassis;
-extern okapi::ADIGyro gyro;
+// extern pros::ADIgyro gyro;
 
 const int WHEEL_DIAMETER = 4;
-const double TRACK_WIDTH = 11.5;
-const int WHEEL_RPM = 200;
+const double TRACK_WIDTH = 11.625; // 11 + 5/8 inches
+const int WHEEL_RPM = 200; 
 
+/*
 // LemLib functions
 extern lemlib::Drivetrain_t drivetrain;
 extern lemlib::ChassisController_t lateralController;
 extern lemlib::ChassisController_t angularController;
+extern lemlib::OdomSensors_t odomSensors;
+extern lemlib::Chassis chassis;
+*/
 /**
  * This file contains the motor definitions for the robot.
  * 
