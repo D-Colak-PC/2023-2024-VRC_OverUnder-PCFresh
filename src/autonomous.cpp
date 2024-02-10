@@ -1,7 +1,6 @@
 #include "main.h"
-//#include "okapi/api.hpp"
-#include "globals.h"
-#include "functions.hpp"
+#include "devices.h"
+#include "functions.h"
 #include <ctime>
 
 
@@ -80,14 +79,14 @@ void autonomous() {
  * Goal: Score Alliance Ball, then position in the middle to score other balls after autonomous period ends
  */
 void offensiveAuton() {
-	left_mg.move_velocity(-200);
-	right_mg.move_velocity(-200);
+	left_drive_mg.move_velocity(-200);
+	right_drive_mg.move_velocity(-200);
 	pros::delay(2000);
-	left_mg.move_velocity(200);
-	right_mg.move_velocity(200);
+	left_drive_mg.move_velocity(200);
+	right_drive_mg.move_velocity(200);
 	pros::delay(1000);
-	left_mg.break();
-	right_mg.break();
+	left_drive_mg.brake();
+	right_drive_mg.brake();
 }
 
 /**
@@ -108,14 +107,14 @@ void defensiveAuton() {
 	move(100, false, 1500);
 	 */
 
-	left_mg.move_velocity(-200);
-	right_mg.move_velocity(-200);
+	left_drive_mg.move_velocity(-200);
+	right_drive_mg.move_velocity(-200);
 	pros::delay(2000);
-	left_mg.move_velocity(200);
-	right_mg.move_velocity(200);
+	left_drive_mg.move_velocity(200);
+	right_drive_mg.move_velocity(200);
 	pros::delay(1000);
-	left_mg.break();
-	right_mg.break();
+	left_drive_mg.brake();
+	right_drive_mg.brake();
 }
 
 

@@ -1,5 +1,5 @@
 #include "main.h"
-#include "globals.h"
+#include "devices.h"
 #include <math.h>
 
 /*
@@ -44,12 +44,12 @@ void opcontrol() {
 			// Arcade control scheme
 			int dir = controller.get_analog(ANALOG_LEFT_Y); // Gets amount forward/backward from left joystick
 			int turn = controller.get_analog(ANALOG_RIGHT_X); // Gets the turn left/right from right joystick
-			left_mg = dir - turn; // Sets left motor voltage
-			right_mg = dir + turn; // Sets right motor voltage
+			left_drive_mg = dir - turn; // Sets left motor voltage
+			right_drive_mg = dir + turn; // Sets right motor voltage
 		} else {
 			// Tank control scheme
-			left_mg = controller.get_analog(ANALOG_LEFT_Y); // Sets left motor voltage
-			right_mg = controller.get_analog(ANALOG_RIGHT_Y); // Sets right motor voltage
+			left_drive_mg = controller.get_analog(ANALOG_LEFT_Y); // Sets left motor voltage
+			right_drive_mg = controller.get_analog(ANALOG_RIGHT_Y); // Sets right motor voltage
 		}
 
 		/**

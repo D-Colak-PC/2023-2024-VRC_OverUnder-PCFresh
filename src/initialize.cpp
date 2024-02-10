@@ -1,6 +1,6 @@
 #include "main.h"
-#include "globals.h"
-#include "functions.hpp"
+#include "devices.h"
+#include "functions.h"
 
 /*
 ██████╗  ██████╗  ██╗██╗  ██╗██╗  ██╗██████╗ 
@@ -53,8 +53,8 @@ void competition_initialize() {
 	catapult_mg.brake();
 	catapult_mg.tare_position(); // set to 0
 
-	left_mg.brake();
-	right_mg.brake();
+	left_drive_mg.brake();
+	right_drive_mg.brake();
 	// left_mg.tare_position_all();
 	// right_mg.tare_position_all();
 

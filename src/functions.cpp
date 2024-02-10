@@ -1,6 +1,6 @@
 #include "main.h"
-#include "globals.h"
-#include "functions.hpp"
+#include "devices.h"
+#include "functions.h"
 
 /*
 ██████╗  ██████╗  ██╗██╗  ██╗██╗  ██╗██████╗ 
