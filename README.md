@@ -21,6 +21,8 @@ open Git Bash and type these following commands. These will let git know the nam
 **All instructions must be followed IN ORDER, as each depends on the last**<br>
 Follow these instructions to download PROS (and VS Code, if necessary): [https://pros.cs.purdue.edu/v5/getting-started/](https://pros.cs.purdue.edu/v5/getting-started/)
 
+Inside VS Code, download the "C/C++" extension.
+
 We use a library called LemLib to handle all PID and robot movement control to have an easy api as well as robust tools at our disposal.
 
 Install LemLib here (current release version: v0.4.7): [https://github.com/LemLib/LemLib/releases/](https://github.com/LemLib/LemLib/releases/)]
