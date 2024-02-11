@@ -1,6 +1,7 @@
 #include "main.h"
 #include "devices.h"
 #include "autonomous.h"
+#include "chassis.h"
 #include <ctime>
 
 
@@ -29,7 +30,7 @@
 
 // 1 for offensive, 2 for defensive
 int current_auton = 1;
-int num_autons = 2;
+int num_autons = 3;
 /* 
 void autonSelector() {
 	while (true) {
@@ -85,6 +86,15 @@ void offensiveAuton() {
 	left_drive_mg.move_velocity(200);
 	right_drive_mg.move_velocity(200);
 	pros::delay(1000);
+	left_drive_mg.move_velocity(-200);
+	right_drive_mg.move_velocity(-200);
+	pros::delay(1000);
+	left_drive_mg.move_velocity(200);
+	right_drive_mg.move_velocity(200);
+	pros::delay(1000);
+	left_drive_mg.move_velocity(-200);
+	right_drive_mg.move_velocity(-200);
+	pros::delay(3000);
 	left_drive_mg.brake();
 	right_drive_mg.brake();
 }
@@ -100,21 +110,7 @@ void offensiveAuton() {
  */
 
 void defensiveAuton() {
-/* 
-	move(100, true, 1000);
-	move(100, false, 1000);
-	turn(90, false);
-	move(100, false, 1500);
-	 */
-
-	left_drive_mg.move_velocity(-200);
-	right_drive_mg.move_velocity(-200);
-	pros::delay(2000);
-	left_drive_mg.move_velocity(200);
-	right_drive_mg.move_velocity(200);
-	pros::delay(1000);
-	left_drive_mg.brake();
-	right_drive_mg.brake();
+	chassis.moveTo(100, 0, 1000);
 }
 
 
