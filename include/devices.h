@@ -1,6 +1,4 @@
 #include "main.h"
-#include "okapi/api.hpp"
-#include "functions.h"
 
 #pragma
 
