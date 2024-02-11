@@ -56,9 +56,9 @@ void opcontrol() {
 		 * @brief intake
 		 * If "A" is pressed, start intake
 		 */
-		if (controller.get_digital(DIGITAL_L1)) { // If "A" is pressed
+		if (controller.get_digital(DIGITAL_R1)) { // If "A" is pressed
 			intake.move_velocity(750); // Start intake
-		} else if (controller.get_digital(DIGITAL_L2)) {
+		} else if (controller.get_digital(DIGITAL_R2)) {
 			intake.move_velocity(-750); // Start intake
 		} else {
 			intake.brake(); // Stop intake
@@ -67,19 +67,27 @@ void opcontrol() {
 		/**
 		 * @brief Toggle shooting
 		 * 
-		 * if R1 is pressed, start shooting UNTIL R2 is pressed
+		 * if X is pressed, start shooting UNTIL B is pressed
 		 */
-		if (controller.get_digital(DIGITAL_R1)) { // If R1 is pressed
-			shooting = true; // Set shooting to true
-		}
-		if (controller.get_digital(DIGITAL_R2)) { // If R2 is pressed
-			shooting = false; // Set shooting to fals
+		if (controller.get_digital(DIGITAL_X)) { // If X is pressed
+			catapult_mg.move_velocity(75); // Start catapult
 		}
 
-		if (shooting) { // If shooting
-			catapult_mg.move_velocity(75); // Start catapult
-		} else {
+		if (controller.get_digital(DIGITAL_B)) { // If B is pressed
 			catapult_mg.brake(); // Stop catapult
+		}
+
+		/**
+		 * @brief wings
+		 * 
+		 * If "L1" is pressed, open wings. If "L2" is pressed, close wings
+		 */
+		if  (controller.get_digital(DIGITAL_L2)) { // If "L2" is pressed
+			wing_mg.move_absolute(0, 200); // Close wings to 0 degrees at 200 velocity
+			wing_mg.brake(); // Stop wings
+		} else if (controller.get_digital(DIGITAL_L1)) { // If "L1" is pressed
+			wing_mg.move_absolute(100, 200); // Open wings to 100 degrees at 200 velocity
+			wing_mg.brake(); // Stop wings
 		}
 
 		pros::delay(CONTROLLER_UPDATE_FPS); // Run for set ms then update

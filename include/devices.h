@@ -1,6 +1,6 @@
 #include "main.h"
 
-#pragma
+#pragma once
 
 /*
 ██████╗  ██████╗  ██╗██╗  ██╗██╗  ██╗██████╗ 
@@ -101,6 +101,7 @@ extern pros::MotorGroup catapult_mg;
 // wings
 extern pros::Motor left_wing;
 extern pros::Motor right_wing;
+extern pros::MotorGroup wing_mg;
 
 // intake
 extern pros::Motor intake;
