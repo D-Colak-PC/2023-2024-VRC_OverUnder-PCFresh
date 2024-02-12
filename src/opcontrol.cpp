@@ -12,8 +12,6 @@
 */
 
 const int CONTROLLER_UPDATE_FPS = 10; // ms between controller updates
-
-const std::string DRIVE_TYPE = "tank"; // "arcade" or "tank"
 /**
  * A callback function for LLEMU's center button.
  *
@@ -36,21 +34,9 @@ void opcontrol() {
 
 
 	while (true) {
-		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
-		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
-		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0); // Prints status of the emulated screen LCDs
-						 
-		if (DRIVE_TYPE.compare("arcade") == 0) {
-			// Arcade control scheme
-			int dir = controller.get_analog(ANALOG_LEFT_Y); // Gets amount forward/backward from left joystick
-			int turn = controller.get_analog(ANALOG_RIGHT_X); // Gets the turn left/right from right joystick
-			left_drive_mg = dir - turn; // Sets left motor voltage
-			right_drive_mg = dir + turn; // Sets right motor voltage
-		} else {
-			// Tank control scheme
-			left_drive_mg = controller.get_analog(ANALOG_LEFT_Y); // Sets left motor voltage
-			right_drive_mg = controller.get_analog(ANALOG_RIGHT_Y); // Sets right motor voltage
-		}
+		// Tank control scheme
+		left_drive_mg = controller.get_analog(ANALOG_LEFT_Y); // Sets left motor voltage
+		right_drive_mg = controller.get_analog(ANALOG_RIGHT_Y); // Sets right motor voltage
 
 		/**
 		 * @brief intake
