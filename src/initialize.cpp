@@ -1,5 +1,8 @@
 #include "main.h"
 #include "devices.h"
+#include "functions.h"
+#include "lemlib/api.hpp"
+#include "chassis.h"
 
 /*
 ██████╗  ██████╗  ██╗██╗  ██╗██╗  ██╗██████╗ 
@@ -17,13 +20,29 @@
  * to keep execution time for this mode under a few seconds.
  */
 
+void printPosition() {
+    // loop forever
+    while (true) {
+        lemlib::Pose pose = chassis.getPose(); // get the current position of the robot
+        pros::lcd::print(0, "x: %f", pose.x); // print the x position
+        pros::lcd::print(1, "y: %f", pose.y); // print the y position
+        pros::lcd::print(2, "heading: %f", pose.theta); // print the heading
+        pros::delay(10);
+    }
+}
+
+
 
 void initialize() {
 	pros::lcd::initialize();
-	// chassis.calibrate();
-	// lemlib::Pose pose = chassis.getPose();
 
-	pros::lcd::set_text(1, "Hello PROS User!");
+	pros::lcd::set_text(1, "VEX > FTC");
+
+	pros::lcd::set_text(2, "Initializing LemLib Chassis");
+	chassis.calibrate();
+	pros::lcd::set_text(2, "EZ Dubs (LemLib Chassis Initialized)");
+
+
 }
 
 /**
@@ -31,8 +50,9 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
+
+
 void disabled() {
-    //chassis.stop();
 }
 
 /**
@@ -45,20 +65,5 @@ void disabled() {
  * starts.
  */
 void competition_initialize() {
-	pros::lcd::clear();
-	pros::lcd::set_text(1, "Competition Initialize");
-
-	// motor inits, etc.
-	catapult_mg.brake();
-	catapult_mg.tare_position(); // set to 0
-
-	left_drive_mg.brake();
-	right_drive_mg.brake();
-	// left_mg.tare_position_all();
-	// right_mg.tare_position_all();
-
-	pros::delay(30);
-
-	// autonSelector();
 }
 
