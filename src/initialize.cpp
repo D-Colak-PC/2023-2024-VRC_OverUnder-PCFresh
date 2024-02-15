@@ -1,6 +1,4 @@
 #include "main.h"
-#include "devices.h"
-#include "lemlib/api.hpp"
 #include "chassis.h"
 
 /*
@@ -26,9 +24,8 @@ void printPosition() {
         pros::lcd::print(0, "x: %f", pose.x); // print the x position
         pros::lcd::print(1, "y: %f", pose.y); // print the y position
         pros::lcd::print(2, "heading: %f", pose.theta); // print the heading
-        pros::lcd::print(3,  "left wing: %f", left_wing.get_position());
+        pros::lcd::print(3, "left wing: %f", left_wing.get_position());
         pros::lcd::print(4, "right wing: %f", right_wing.get_position());
-        pros::lcd::print(5, "both wings: %f", wing_mg.get_positions());
         pros::delay(10);
     }
 }
@@ -51,13 +48,8 @@ void setUpMotors() {
     intake.tare_position(); // set intake position to 0
 
     // setting up drive
-    left_drive_mg.set_brake_modes(pros::E_MOTOR_BRAKE_COAST); // set brake modes
-    right_drive_mg.set_brake_modes(pros::E_MOTOR_BRAKE_COAST); // set brake modes
     left_drive_mg.tare_position(); // set drive positions to 0
     right_drive_mg.tare_position(); // set drive positions to 0
-
-    // setting up imu
-    imu.reset(); // reset imu
 }
 
 
@@ -68,17 +60,15 @@ void initialize() {
 
     pros::lcd::set_text(2, "Initializing Motors");
     setUpMotors();
-    pros::delay(500);
     pros::lcd::set_text(2, "EZ Dubs (Motors Initialized)");
 
 	pros::lcd::set_text(3, "Initializing LemLib Chassis");
-	chassis.calibrate();
-    chassis.setPose({0, 0, 0}); // only for testing purposes
+    imu.reset(true); // reset the imu
+    imu.tare(); // tare the imu
+	chassis.calibrate(); // calibrate the chassis
 	pros::lcd::set_text(3, "EZ Dubs (LemLib Chassis Initialized)");
 
     pros::Task screenTask(printPosition);
-
-
 }
 
 /**

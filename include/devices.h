@@ -107,7 +107,7 @@ extern pros::MotorGroup wing_mg;
 extern pros::Motor intake;
 
 // sensor declerations
-extern pros::Distance distnace_sensor;
+extern pros::Distance distance_sensor;
 
 // controller declerations
 extern pros::Controller controller;

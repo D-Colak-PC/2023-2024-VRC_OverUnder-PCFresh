@@ -15,7 +15,6 @@
 ╚══════╝ ╚═════╝  ╚═╝     ╚═╝     ╚═╝╚═════╝ 
 */
 
-
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -54,23 +53,67 @@ void autonomous() {
  * Goal: Score Alliance Ball, then position in the middle to score other balls after autonomous period ends
  */
 void offensiveAuton() {
-	left_drive_mg.move_velocity(-200);
-	right_drive_mg.move_velocity(-200);
-	pros::delay(2000);
-	left_drive_mg.move_velocity(200);
-	right_drive_mg.move_velocity(200);
-	pros::delay(1000);
-	left_drive_mg.move_velocity(-200);
-	right_drive_mg.move_velocity(-200);
-	pros::delay(1000);
-	left_drive_mg.move_velocity(200);
-	right_drive_mg.move_velocity(200);
-	pros::delay(1000);
-	left_drive_mg.move_velocity(-200);
-	right_drive_mg.move_velocity(-200);
-	pros::delay(3000);
-	left_drive_mg.brake();
-	right_drive_mg.brake();
+	/**
+	 * at in intake
+	 * drive forward 2 blocks
+	 * outtake
+	 * wait 500ms
+	 * stop outake
+	 * right 90
+	 * intake
+	 * drive forward 2 blocks
+	 * stop intake
+	 * drive back 1 block
+	 * left 135
+	 * outtake
+	 * wait 500ms
+	 * stop outake
+	 * right 90
+	 * intake
+	 * forward sqrt(2) blocks
+	 * stop intake
+	 * right 45
+	 * open wings
+	 * drive back 1 block
+	 * left 10
+	 * drive back 1 block
+	 * wait 500ms
+	 * close wings
+	 * drive forward 1 block
+	 * right 180
+	 * drive forward 1 block
+	 * outtake
+	 * wait 500ms
+	 * stop outake
+	*/
+
+	chassis.setPose(0, 0, 0);
+	chassis.moveTo(0, 24, 1000);
+	controller.set_text(0, 0, "trolling");
+	move(24); // inches
+	outtake_roller(500); // ms
+	turn(90); // degrees, right
+	intake.move_velocity(200);
+	move(24);
+	intake.brake();
+	move(-12);
+	turn(135, true); // degrees, left
+	outtake_roller(500);
+	turn(90);
+	intake.move_velocity(200);
+	move(24 * sqrt(2));
+	intake.brake();
+	turn(45);
+	moveWings(280, 100);
+	move(-12);
+	turn(10, true);
+	move(-12);
+	pros::delay(500);
+	moveWings(0, -50);
+	move(12);
+	turn(180);
+	move(12);
+	outtake_roller(500);
 }
 
 /**

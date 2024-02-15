@@ -1,5 +1,5 @@
 #include "main.h"
-#include "devices.h"
+#include "chassis.h"
 #include <math.h>
 
 /*
@@ -28,72 +28,8 @@ void on_center_button() {
 	}
 }
 
-void openWings() {
-	bool left_wing_open;
-	bool right_wing_open;
-	wing_mg.move_absolute(120, 200);
-	while (true) {
-		left_wing_open = (left_wing.get_position() < 125) && (left_wing.get_position() > 115);
-		right_wing_open = (right_wing.get_position() < 125) && (right_wing.get_position() > 115);
-		if (left_wing_open) { // if left wing is open:
-			if (right_wing_open) { // if both wings are open, exit loop.
-				left_wing.brake(); // edge case where both wings open at exactly the same time
-				right_wing.brake(); // stop right wing
-				break; // both wings are open, therefore exit loop
-			} else { // right wing is not open
-				left_wing.brake(); // only brake left wing
-			}
-		}
-
-		pros::delay(10);
-	}
-}
-
-
-void moveWings(int target, int speed, int error_range = 10, int timeout = 50) {
-	int left_wing_position = left_wing.get_position();
-	int right_wing_position = right_wing.get_position();
-	bool left_wing_in_range = (left_wing_position < (target + error_range)) && (left_wing_position > (target - error_range));
-	bool right_wing_in_range = (right_wing_position < (target + error_range)) && (right_wing_position > (target - error_range));
-	int start_time = pros::millis();
-
-	if (left_wing_in_range && right_wing_in_range) { // dont move if already in position
-		return;
-	}
-
-	wing_mg.move_absolute(target, speed); // Move to position
-
-	while (pros::millis() - start_time < timeout) { // timeout if something goes wrong.
-	 	// if both wings are already braked
-		if (left_wing.get_target_velocity() == 0 && right_wing.get_target_velocity() == 0) {
-			break; // exit loop
-		}
-
-		// if left wing is in range, brake it
-		if (left_wing_in_range) {
-			left_wing.brake();
-		}
-
-		// if right wing is in range, brake it
-		if (right_wing_in_range) {
-			right_wing.brake();
-		}
-
-		// update variables
-		left_wing_position = left_wing.get_position();
-		right_wing_position = right_wing.get_position();
-		left_wing_in_range = (left_wing_position < (target + error_range)) && (left_wing_position > (target - error_range));
-		right_wing_in_range = (right_wing_position < (target + error_range)) && (right_wing_position > (target - error_range));
-
-		// small delay to keep PROS happy
-		pros::delay(2);
-	}
-}
-
 
 void opcontrol() {
-	bool shooting = false; // Whether the robot is shooting
-
 
 	while (true) {
 		// Tank control scheme
@@ -102,10 +38,15 @@ void opcontrol() {
 
 		/**
 		 * @brief intake
-		 * If "A" is pressed, start intake
+		 * If "R1" is pressed, run intake. If "R2" is pressed, reverse intake
 		 */
-		if (controller.get_digital(DIGITAL_R1)) { // If "A" is pressed
-			intake.move_velocity(750); // Start intake
+		if (controller.get_digital(DIGITAL_R1)) { // If "R1" is pressed
+			if (distance_sensor.get() >= 30) { // If ball is more than 30 mm away
+				intake.move_velocity(750); // run intake
+			} else {
+				intake.brake(); // Stop intake so ball doesn't get stuck inside intake
+			}
+
 		} else if (controller.get_digital(DIGITAL_R2)) {
 			intake.move_velocity(-750); // Start intake
 		} else {
@@ -117,13 +58,12 @@ void opcontrol() {
 		 * 
 		 * if X is pressed, start shooting UNTIL B is pressed
 		 */
-		if (controller.get_digital(DIGITAL_X)) { // If X is pressed
-			catapult_mg.move_velocity(75); // Start catapult
-		}
-
-		if (controller.get_digital(DIGITAL_B)) { // If B is pressed
-			catapult_mg.brake(); // Stop catapult
-		}
+if (controller.get_digital(DIGITAL_X)) { // If "X" is pressed
+    catapult_mg.move_velocity(75); // Run the catapult at 75 velocity
+    while (!controller.get_digital(DIGITAL_B)) {} // While B is not pressed, do nothing
+    catapult_mg.move_velocity(0); // Stop the catapult once B is pressed
+}
+		
 
 		/**
 		 * @brief wings

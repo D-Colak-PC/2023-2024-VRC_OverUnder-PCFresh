@@ -1,5 +1,6 @@
 #include "main.h"
 #include "lemlib/api.hpp"
+#include "devices.h"
 
 /*
 ██████╗  ██████╗  ██╗██╗  ██╗██╗  ██╗██████╗ 
@@ -22,3 +23,9 @@ extern lemlib::ChassisController_t lateralController;
 extern lemlib::ChassisController_t angularController;
 
 extern lemlib::Chassis chassis;
+
+void moveWings(int target, int speed, int error_range = 10, int timeout = 50);
+void move(int distance, int speed = 200);
+void turn(int degrees, int speed = 100, bool left = false);
+void intake_roller(int timeout);
+void outtake_roller(int timeout);
