@@ -25,7 +25,7 @@
  * 3   | 
  * 4   |
  * 5   | 
- * 6   |
+ * 6   | Distance Sensor
  * 7   |
  * 8   |
  * 9   |
@@ -77,7 +77,7 @@ const int RIGHT_WING_PORT = 15;
 const int INTAKE_PORT = 2;
 
 // sensor ports
-const char BACK_BUMPER_PORT = 'h';
+const int DISTANCE_PORT = 6;
 const int IMU_PORT = 12;
 
 /**
@@ -107,7 +107,7 @@ extern pros::MotorGroup wing_mg;
 extern pros::Motor intake;
 
 // sensor declerations
-extern pros::ADIDigitalIn back_bump_sensor;
+extern pros::Distance distnace_sensor;
 
 // controller declerations
 extern pros::Controller controller;

@@ -28,33 +28,7 @@
  * from where it left off.
  */
 
-// 1 for offensive, 2 for defensive
-int current_auton = 1;
-int num_autons = 3;
-/* 
-void autonSelector() {
-	while (true) {
-		pros::lcd::clear();
-		pros::lcd::print(2, "Auton: %s Selected", current_auton);
-		pros::delay(200);
-
-		if (controller.get_digital(DIGITAL_LEFT)) {
-			current_auton--;
-		} else if (controller.get_digital(DIGITAL_RIGHT)) {
-			current_auton++;
-		} else if (controller.get_digital(DIGITAL_UP)) {
-			break;
-		}
-
-		if (current_auton < 1) {
-			current_auton = num_autons;
-		} else if (current_auton > num_autons) {
-			current_auton = 1;
-		}
-	}
-}
- */
-
+// 1 for offensive, 2 for defensive, 3 for skills
 void autonomous() {
 	int current_auton = 1;
 	// int start_time = std::time(0);

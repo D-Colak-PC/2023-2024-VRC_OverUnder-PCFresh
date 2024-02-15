@@ -30,7 +30,7 @@ pros::Motor intake(INTAKE_PORT, pros::E_MOTOR_GEARSET_06, true); // Creates inta
 
 // sensors
 pros::Imu imu(IMU_PORT); // Creates imu object
-pros::ADIDigitalIn back_bump_sensor(BACK_BUMPER_PORT); // Creates back bumper sensor object
+pros::Distance distance_sensor(DISTANCE_PORT); // Creates back bumper sensor object
 
 // controller
 pros::Controller controller(pros::E_CONTROLLER_MASTER); // Creates controller object for master controller
