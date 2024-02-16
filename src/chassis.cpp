@@ -10,16 +10,17 @@
 */
 
 // creation of drivetrain
-lemlib::Drivetrain_t drivetrain = {
+lemlib::Drivetrain drivetrain {
     &left_drive_mg, // left drive train
     &right_drive_mg, // right drive train
-    WHEEL_DIAMETER, // wheel diameter
-    TRACK_WIDTH, // track (from center of left wheel to center of right wheel)
-    WHEEL_RPM // wheel rpm
+	TRACK_WIDTH, // track width
+    lemlib::Omniwheel::NEW_4, // wheel diameter
+    WHEEL_RPM, // wheel rpm
+	CHASE_POWER // chase power
 };
 
 // odometry and sensors to help with PID
-lemlib::OdomSensors_t odomSensors {
+lemlib::OdomSensors odomSensors {
     nullptr,
     nullptr,
     nullptr,
@@ -28,33 +29,38 @@ lemlib::OdomSensors_t odomSensors {
 };
 
 // forward/backward PID
-lemlib::ChassisController_t lateralController {
+lemlib::ControllerSettings linearController {
     10, // kP
-    30, // kD
+	0, // kI
+    3, // kD
+	3, // antiWindup
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
     500, // largeErrorTimeout
-    5 // slew rate
+    20 // slew rate (max acceleration)
 };
  
 // turning PID
-lemlib::ChassisController_t angularController {
-    4, // kP
-    40, // kD
+lemlib::ControllerSettings angularController {
+    3, // kP
+	0, // kI
+	15, // kD
+	3, // antiWindup 
     1, // smallErrorRange
     100, // smallErrorTimeout
     3, // largeErrorRange
     500, // largeErrorTimeout
-    0 // slew rate
+    0 // slew rate (max acceleration) (0 = no limit)
 };
 
 // chassis
-lemlib::Chassis chassis(
+lemlib::Chassis chassis (
     drivetrain,
-    lateralController,
+    linearController,
     angularController,
-    odomSensors);
+    odomSensors
+);
 
 
 void moveWings(int target, int speed, int error_range, int timeout) {
@@ -99,7 +105,7 @@ void moveWings(int target, int speed, int error_range, int timeout) {
 
 
 void move(int distance, int speed) { // distance is in inches
-    const float amt_to_move = distance * 360 / WHEEL_DIAMETER;
+    const float amt_to_move = distance * 360 / 4;
     
     left_drive_mg.move_relative(amt_to_move, speed);
     right_drive_mg.move_relative(amt_to_move, speed);

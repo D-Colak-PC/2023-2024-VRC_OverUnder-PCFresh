@@ -29,7 +29,7 @@
 
 // 1 for offensive, 2 for defensive, 3 for skills
 void autonomous() {
-	int current_auton = 1;
+	int current_auton = 2;
 	// int start_time = std::time(0);
 	pros::delay(2000);
 
@@ -86,9 +86,6 @@ void offensiveAuton() {
 	 * wait 500ms
 	 * stop outake
 	*/
-
-	chassis.setPose(0, 0, 0);
-	chassis.moveTo(0, 24, 1000);
 	controller.set_text(0, 0, "trolling");
 	move(24); // inches
 	outtake_roller(500); // ms
@@ -127,7 +124,6 @@ void offensiveAuton() {
  */
 
 void defensiveAuton() {
-	chassis.moveTo(100, 0, 1000);
 }
 
 

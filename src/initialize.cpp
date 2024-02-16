@@ -26,7 +26,7 @@ void printPosition() {
         pros::lcd::print(2, "heading: %f", pose.theta); // print the heading
         pros::lcd::print(3, "left wing: %f", left_wing.get_position());
         pros::lcd::print(4, "right wing: %f", right_wing.get_position());
-        pros::delay(10);
+        pros::delay(50);
     }
 }
 
@@ -63,6 +63,7 @@ void initialize() {
     pros::lcd::set_text(2, "EZ Dubs (Motors Initialized)");
 
 	pros::lcd::set_text(3, "Initializing LemLib Chassis");
+    pros::delay(3000);
     imu.reset(true); // reset the imu
     imu.tare(); // tare the imu
 	chassis.calibrate(); // calibrate the chassis

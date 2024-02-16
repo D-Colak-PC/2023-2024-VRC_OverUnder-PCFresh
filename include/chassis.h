@@ -13,14 +13,14 @@
 
 
 // variables for lemlib PID:
-const int WHEEL_DIAMETER = 4;
-const double TRACK_WIDTH = 11.625; // 11 + 5/8 inches
+const float TRACK_WIDTH = 11.625; // 11 + 5/8 in
 const int WHEEL_RPM = 200; 
+const int CHASE_POWER = 2; // how fast a robot can turn a corner
 
-extern lemlib::Drivetrain_t drivetrain;
-extern lemlib::OdomSensors_t odomSensors;
-extern lemlib::ChassisController_t lateralController;
-extern lemlib::ChassisController_t angularController;
+extern lemlib::Drivetrain drivetrain;
+extern lemlib::OdomSensors odomSensors;
+extern lemlib::ControllerSettings linearController;
+extern lemlib::ControllerSettings angularController;
 
 extern lemlib::Chassis chassis;
 
