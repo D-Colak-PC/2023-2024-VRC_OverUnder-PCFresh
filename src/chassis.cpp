@@ -38,7 +38,7 @@ lemlib::ControllerSettings linearController {
     100, // smallErrorTimeout
     3, // largeErrorRange
     500, // largeErrorTimeout
-    20 // slew rate (max acceleration)
+    2 // slew rate (max acceleration)
 };
  
 // turning PID
@@ -137,15 +137,8 @@ void turn(int degrees, int speed, bool left) { // degrees is in degrees
 };
 
 
-void intake_roller(int timeout) {
-	intake.move_velocity(200);
-	pros::delay(timeout);
-	intake.brake();
-};
-
-
-void outtake_roller(int timeout) {
-	intake.move_velocity(-200);
+void intake_move(int speed, int timeout) {
+	intake.move_velocity(speed);
 	pros::delay(timeout);
 	intake.brake();
 };
